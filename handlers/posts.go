@@ -41,6 +41,10 @@ func (h *Handler) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusBadRequest, "title is required")
 		return
 	}
+	if len([]rune(req.Title)) < 3 {
+		respondError(w, http.StatusBadRequest, "title must be at least 3 characters")
+		return
+	}
 	if req.Content == "" {
 		respondError(w, http.StatusBadRequest, "content is required")
 		return

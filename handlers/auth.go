@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"net/mail"
 	"time"
 
 	"blog-api/models"
@@ -46,6 +47,10 @@ func (h *Handler) RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if req.Email == "" {
 		respondError(w, http.StatusBadRequest, "email is required")
+		return
+	}
+	if _, err := mail.ParseAddress(req.Email); err != nil {
+		respondError(w, http.StatusBadRequest, "invalid email format")
 		return
 	}
 	if req.Password == "" {
